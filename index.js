@@ -10,9 +10,30 @@ app.get('/', (req, res) => {
 });
 
 
+app.post('/api/users', async (req, res) => {
+  const { username } = req.body;
+
+  try {
+    // Check if the username already exists
+    const user = await UserModel.findOne({ username });
+    if (user) {
+      return res.json({ error: "Username already taken" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+const port = process.env.PORT || 5000;
+const start = async () => {
+  try {
+    await connectDB(process.env.MONGO_URI);
+    app.listen(port, () => console.log(`Server is listening to ${port}....`));
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 
-
-const listener = app.listen(process.env.PORT || 5000, () => {
-  console.log('Your app is listening on port ' + listener.address().port)
-})
+start();
