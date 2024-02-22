@@ -8,6 +8,4 @@ const exerciseSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 
-const Exercise = mongoose.model("Exercise", exerciseSchema);
-
-module.exports = Exercise;
+module.exports = mongoose.model("Exercise", exerciseSchema);
