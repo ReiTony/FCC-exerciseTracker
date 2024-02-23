@@ -98,6 +98,7 @@ app.post("/api/users/:_id/exercises", async (req, res) => {
         duration: newExercise.duration,
         date: newExercise.date,
       });
+      console.log(`Date pushed: ${newExercise.date}`);
       userLog.count += 1;
       await userLog.save();
     } else {
@@ -157,7 +158,7 @@ app.get("/api/users/:_id/logs", async (req, res) => {
     let log = userLog.log.map((exercise) => ({
       description: exercise.description,
       duration: exercise.duration,
-      date: exercise.date.toDateString(),
+      date: new Date(exercise.date).toDateString(),
     }));
 
     if (from) {
